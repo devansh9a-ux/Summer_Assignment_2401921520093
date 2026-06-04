@@ -1,1 +1,104 @@
+MATRIX DIAGONAL SUM
+class Solution {
+public:
+    int diagonalSum(vector<vector<int>>& mat) {
+        int n = mat.size();
+        int sum = 0;
 
+        for (int i = 0; i < n; i++) {
+            sum += mat[i][i];                 // Primary diagonal
+            sum += mat[i][n - 1 - i];         // Secondary diagonal
+        }
+
+        
+        if (n % 2 == 1) {
+            sum -= mat[n / 2][n / 2];
+        }
+
+        return sum;
+    }
+}; 
+
+
+
+RESHAPE THE MATRIX
+class Solution {
+public:
+    vector<vector<int>> matrixReshape(vector<vector<int>>& mat, int r, int c) {
+        int rows = mat.size();
+        int cols = mat[0].size();
+
+        // Reshape is not possible if total elements don't match
+        if (rows * cols != r * c) {
+            return mat;
+        }
+
+        vector<vector<int>> reshaped(r, vector<int>(c));
+
+        int row = 0, col = 0;
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                reshaped[row][col] = mat[i][j];
+
+                col++;
+
+                if (col == c) {
+                    col = 0;
+                    row++;
+                }
+            }
+        }
+
+        return reshaped;
+    }
+};  
+
+
+
+
+SPIRAL MATRIX
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int> ans;
+
+        int top = 0;
+        int bottom = matrix.size() - 1;
+        int left = 0;
+        int right = matrix[0].size() - 1;
+
+        while (top <= bottom && left <= right) {
+
+            // Left to Right
+            for (int col = left; col <= right; col++) {
+                ans.push_back(matrix[top][col]);
+            }
+            top++;
+
+            // Top to Bottom
+            for (int row = top; row <= bottom; row++) {
+                ans.push_back(matrix[row][right]);
+            }
+            right--;
+
+            // Right to Left
+            if (top <= bottom) {
+                for (int col = right; col >= left; col--) {
+                    ans.push_back(matrix[bottom][col]);
+                }
+                bottom--;
+            }
+
+            // Bottom to Top
+            if (left <= right) {
+                for (int row = bottom; row >= top; row--) {
+                    ans.push_back(matrix[row][left]);
+                }
+                left++;
+            }
+        }
+
+        return ans;
+    }
+};;
